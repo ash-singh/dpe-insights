@@ -10,7 +10,7 @@ import (
 
 func init() {
 	rootCmd.AddCommand(cronCmd)
-	cronCmd.Flags().StringP("outputDir", "o", "./docs", "Output directory")
+	cronCmd.Flags().StringP("outputDir", "o", "./docs/cli", "Output directory")
 }
 
 var cronCmd = &cobra.Command{
