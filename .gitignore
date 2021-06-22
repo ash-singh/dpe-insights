@@ -1,0 +1,13 @@
+/build
+/.idea
+
+docker/compose/data/grafana/png
+docker/compose/data/grafana/plugins
+docker/compose/data/grafana/grafana.db
+docker/compose/data/mysql/mysql
+var/logs
+tmp
+bin
+**/.DS_Store
+.env
+.dpe-cli.yml
