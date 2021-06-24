@@ -25,6 +25,10 @@ jobs:
       - name: Test
         env:
           MYSQL_DSN: root:root@(localhost:3306)/dpe_insights?parseTime=true
+          PLUGIN_GITHUB_OAUTH2_TOKEN: dummy-github-token
+          PLUGIN_GITHUB_ORGANIZATION_NAME: dummy-github-org
+          PLUGIN_GITHUB_OWNER_NAME: dummy-github-owner
+          PLUGIN_PAGER_DUTY_ACCESS_TOKEN: <Valid PD access token>
         run: |
           go test -v -mod=readonly -coverprofile c.out ./...
 
