@@ -7,7 +7,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/sendinblue/dpe-insights/core/config"
 	_ "github.com/sendinblue/dpe-insights/testing"
 	"github.com/stretchr/testify/assert"
 )
@@ -20,17 +19,6 @@ type mockHTTPClient struct {
 
 func (m *mockHTTPClient) Do(req *http.Request) (*http.Response, error) {
 	return m.DoFunc(req)
-}
-
-func TestClient_GetAllIncidents_Integration(t *testing.T) {
-	pdClient := New(config.NewConfig().PluginPagerDutyAccessToken)
-
-	since, _ := time.Parse(time.RFC3339, "2021-02-20T12:11:19Z")
-	until, _ := time.Parse(time.RFC3339, "2021-02-20T12:11:21Z")
-
-	_, err := pdClient.GetAllIncidents(since, until)
-
-	assert.NoError(t, err)
 }
 
 func TestDecodeHTTPResponseBody(t *testing.T) {
