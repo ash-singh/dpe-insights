@@ -103,7 +103,7 @@
               "type": "time"
             }
           ],
-          "hide": true,
+          "hide": false,
           "metricColumn": "team_slug",
           "rawQuery": true,
           "rawSql": "SELECT\n  $__timeGroupAlias(pr_closed_at,$interval),\n  team_slug AS metric,\n  sum(TIMESTAMPDIFF(HOUR, first_commit_at, pr_merged_at))/count(pr_id) as lead_time_for_change\nFROM transformed_pull_request_data\nWHERE\n  $__timeFilter(pr_closed_at) AND\n  team_slug IN($team_slug)\nGROUP BY 1,2\nORDER BY $__timeGroup(pr_closed_at, $interval)",
@@ -308,7 +308,7 @@
               "type": "time"
             }
           ],
-          "hide": true,
+          "hide": false,
           "metricColumn": "team_slug",
           "rawQuery": true,
           "rawSql": "SELECT \n  $__timeGroupAlias(er.created_at,$interval),\n  et.slug AS metric,\n  count(er.id) as \"Releases\"\nFROM extracted_releases as er\n\nLEFT JOIN extracted_team_repositories as etr\nON etr.github_repository_id = er.repository_id\n\nLEFT JOIN extracted_teams et\nON etr.github_team_id = et.id\n\nWHERE\n  $__timeFilter(er.created_at) AND\n  (et.slug IN($team_slug) OR et.slug = 'global') AND\n  et.slug NOT REGEXP '(^sendinblue|-review)$'\nGROUP BY 1,2\nORDER BY $__timeGroup(er.created_at, $interval)",
@@ -505,7 +505,7 @@
         {
           "format": "time_series",
           "group": [],
-          "hide": true,
+          "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
           "rawSql": "SELECT\n  $__timeGroupAlias(created_at,$interval),\n  IFNULL(mpsnts.team_slug, epi.service_name) AS team_slug,\n  avg(duration) AS \"duration\"\nFROM extracted_pagerduty_incidents as epi\nLEFT JOIN map_pagerduty_service_name_team_slug mpsnts ON epi.service_name = mpsnts.service_name\nWHERE\n  $__timeFilter(created_at) AND\n  urgency = 'high' AND\n  team_slug IN($team_slug)\nGROUP BY 1,2\nORDER BY $__timeGroup(created_at, $interval)",
@@ -691,7 +691,7 @@
               "type": "time"
             }
           ],
-          "hide": true,
+          "hide": false,
           "metricColumn": "title",
           "rawQuery": true,
           "rawSql": "SELECT\n  $__timeGroupAlias(pr_created_at,$interval),\n  team_slug,\n  # SUM(IF(branch_name LIKE 'hotfix%', 1, 0)) AS hotfix,\n  # SUM(IF(branch_name LIKE 'revert%', 1, 0)) AS revert,\n  # COUNT(*) AS total,\n  (SUM(IF(branch_name LIKE 'hotfix%', 1, 0)) + SUM(IF(branch_name LIKE 'revert%', 1, 0))) / COUNT(*) AS change_fail_ratio\nFROM transformed_pull_request_data\nWHERE\n  $__timeFilter(pr_created_at) and\n  team_slug IN($team_slug)\nGROUP BY 1,2\nORDER BY $__timeGroup(pr_created_at, $interval)",
