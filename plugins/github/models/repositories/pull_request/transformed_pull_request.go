@@ -16,6 +16,7 @@ import (
 // TransformedPullRequest repository for pull requests.
 type TransformedPullRequest struct {
 	Db sqlx.DB
+	ExcludeTeams []string
 }
 
 const (
@@ -123,10 +124,9 @@ func (tpr *TransformedPullRequest) FetchTeam(ownerID int, repositoryName string)
 
 func (tpr *TransformedPullRequest) fetchMatchingTeam(repoTeams []string, userTeams []string) string {
 	var teams []string
-	filterTeams := []string{"sendinblue", "php-review", "go-review", "node-js-review"}
 
-	userTeams = helpers.Difference(userTeams, filterTeams)
-	repoTeams = helpers.Difference(repoTeams, filterTeams)
+	userTeams = helpers.Difference(userTeams, tpr.ExcludeTeams)
+	repoTeams = helpers.Difference(repoTeams, tpr.ExcludeTeams)
 
 	hash := make(map[string]bool)
 	for _, e := range userTeams {

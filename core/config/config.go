@@ -1,9 +1,6 @@
 package config
 
 import (
-	"fmt"
-	"os"
-
 	"github.com/spf13/viper"
 )
 
@@ -16,6 +13,7 @@ type Config struct {
 	PluginGithubOauth2Token      string
 	PluginGithubOrganizationName string
 	PluginGithubOwnerName        string
+	PluginGithubExcludeTeams     string
 
 	PluginPagerDutyAccessToken string
 }
@@ -29,15 +27,6 @@ func getConfig(key string, defaultValue string) string {
 }
 
 func loadEnvVariables() {
-	if _, err := os.Stat(".env"); err == nil {
-		viper.SetConfigFile(".env")
-		// Find and read the config file
-		err := viper.ReadInConfig()
-		if err != nil {
-			fmt.Printf("Error while reading config file %s", err)
-		}
-	}
-
 	// Enable VIPER to read Environment Variables
 	viper.AutomaticEnv()
 }
@@ -54,6 +43,7 @@ func NewConfig() *Config {
 		PluginGithubOauth2Token:      getConfig("PLUGIN_GITHUB_OAUTH2_TOKEN", ""),
 		PluginGithubOrganizationName: getConfig("PLUGIN_GITHUB_ORGANIZATION_NAME", ""),
 		PluginGithubOwnerName:        getConfig("PLUGIN_GITHUB_OWNER_NAME", ""),
+		PluginGithubExcludeTeams:     getConfig("PLUGIN_GITHUB_EXCLUDE_TEAMS", ""),
 
 		PluginPagerDutyAccessToken: getConfig("PLUGIN_PAGER_DUTY_ACCESS_TOKEN", ""),
 	}

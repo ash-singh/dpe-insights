@@ -1,6 +1,7 @@
 package github
 
 import (
+	"strings"
 	"sync"
 
 	"github.com/sendinblue/dpe-insights/core/config"
@@ -105,6 +106,13 @@ func newDIContainer() *diContainer {
 
 	gitClient := helpers.NewClient()
 
+	excludeTeams := strings.Split(dic.config.PluginGithubExcludeTeams, ",")
+
+	dic.pullRequestCountRepository = &pullRequestRepository.CountRepository{Db: *db}
+	dic.tprRepository = &pullRequestRepository.TransformedPullRequest{Db: *db, ExcludeTeams: excludeTeams}
+	dic.tprCountRepository = &pullRequestRepository.TransformedPRCountRepository{Db: *db}
+	dic.tprTeamCountRepository = &pullRequestRepository.TransformedTeamPRCountRepository{Db: *db}
+
 	dic.teamImporter = &importer.TeamImporter{
 		Repository:             &repositories.Team{Db: *db},
 		TeamClient:             gitClient.Teams,
@@ -131,7 +139,7 @@ func newDIContainer() *diContainer {
 
 	dic.pullRequestTransformer = &transformer.PullRequest{
 		Repository:                       &pullRequestRepository.PullRequest{Db: *db},
-		TransformedPullRequestRepository: &pullRequestRepository.TransformedPullRequest{Db: *db},
+		TransformedPullRequestRepository: dic.tprRepository,
 	}
 
 	dic.releaseImporter = &importer.ReleaseImporter{
@@ -147,11 +155,6 @@ func newDIContainer() *diContainer {
 		PullRequestClient:      gitClient.PullRequests,
 		GithubOrganizationName: dic.config.PluginGithubOrganizationName,
 	}
-
-	dic.pullRequestCountRepository = &pullRequestRepository.CountRepository{Db: *db}
-	dic.tprRepository = &pullRequestRepository.TransformedPullRequest{Db: *db}
-	dic.tprCountRepository = &pullRequestRepository.TransformedPRCountRepository{Db: *db}
-	dic.tprTeamCountRepository = &pullRequestRepository.TransformedTeamPRCountRepository{Db: *db}
 
 	return dic
 }
