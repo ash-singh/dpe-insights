@@ -40,6 +40,9 @@ func initConfig() {
 	} else {
 		fmt.Println("Using system environment variables defined in $HOME/.dpe-cli.yml")
 	}
+
+	// Enable VIPER to read Environment Variables
+	viper.AutomaticEnv()
 }
 
 // rootCmd main command.

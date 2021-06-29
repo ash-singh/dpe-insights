@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"strings"
 	"sync"
 
 	"github.com/sendinblue/dpe-insights/core/config"
@@ -79,10 +80,11 @@ func newDIContainer() *diContainer {
 	db, _ := mysql.NewDB(conf)
 
 	gitClient := helpers.NewClient()
+	excludeTeams := strings.Split(conf.PluginGithubExcludeTeams, ",")
 
 	di.prCountRepository = &pullRequest.CountRepository{Db: *db}
 
-	di.tprRepository = &pullRequest.TransformedPullRequest{Db: *db}
+	di.tprRepository = &pullRequest.TransformedPullRequest{Db: *db, ExcludeTeams: excludeTeams}
 
 	di.tprCountRepository = &pullRequest.TransformedPRCountRepository{Db: *db}
 
