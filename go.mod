@@ -3,8 +3,7 @@ module github.com/sendinblue/dpe-insights
 go 1.16
 
 require (
-	github.com/cheggaaa/pb/v3 v3.0.5
-	github.com/fatih/color v1.10.0 // indirect
+	github.com/cheggaaa/pb/v3 v3.1.4
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
 	github.com/go-sql-driver/mysql v1.5.0
 	github.com/golang/protobuf v1.4.3 // indirect
@@ -16,7 +15,6 @@ require (
 	github.com/kr/text v0.2.0 // indirect
 	github.com/lib/pq v1.8.0 // indirect
 	github.com/magiconair/properties v1.8.5 // indirect
-	github.com/mattn/go-runewidth v0.0.9 // indirect
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/mitchellh/mapstructure v1.4.1 // indirect
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
@@ -31,7 +29,6 @@ require (
 	golang.org/x/crypto v0.0.0-20210220033148-5ea612d1eb83 // indirect
 	golang.org/x/net v0.0.0-20210226172049-e18ecbb05110 // indirect
 	golang.org/x/oauth2 v0.0.0-20210220000619-9bb904979d93
-	golang.org/x/sys v0.0.0-20210503173754-0981d6026fa6 // indirect
 	golang.org/x/text v0.3.6 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	gopkg.in/check.v1 v1.0.0-20200902074654-038fdea0a05b // indirect
